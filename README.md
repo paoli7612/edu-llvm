@@ -39,5 +39,19 @@ Fibonacci: $(OPTIMIZER)
 
 Per esempio `$ make Loop` genererà la IR senza ottimizzazioni col comando **clang**. Eseguirà poi l'ottimizzazione della IR generata con il passo creato nella cartella `1.TestPass/lib` chiamato **test-pass**. Questo passo non genererà output (infatti è impostata l'opzione `-disable-output`), ma stamperà il risultato sul stdout.
 
+# 2. LocalOpts
+## 2.1 Algebraic Identity
+Il primo compito consiste nell'implementare un passo LLVM che esegue l'ottimizzazione locale **algebraic identity**. Nel file `2.LocalOpts/lib/AlgebraicIdentity.cpp` si trova il passo che viene incluso dal file di configurazione dei passi `2.LocalOpts/lib/LocalOpts.cpp`.
 
+Tale passo ora è in grado di trovare le istruzioni che comprendono una somma con un'operando a 0. Una volta trovata l'istruzione va a scorrere tutti gli usi del nome di quell'istruzione per andare a sostituire con l'addendo che non è 0. Una volta finito possiamo avviare la **dead code elimination** per rimuovere le righe diventate **dead code**.
 
+Per rendere più "verboso" il passaggio:
+```cpp
+    print(M); // stampo la IR iniziale
+    findAlgebraicIdentity(M); // applico la AlgebraicIdentity
+    print(M); // stampo la IR modificata
+    eliminateDeadCode(M); // applico la DeadCodeElimination
+    print(M); // stampo il risultato ifnale
+```
+
+Inolte è stato creato un file c `2.LocalOpts/test/hello-world.c` e una regola nel makefile per provare questo passo. `$ make hello-world`. Notiamo però che dopo aver "migliorato" la IR con questo passo è stata eliminata anche la funzionalità del printf (non ho considerato i **side effect**). Quindi è stata considerata **DeadCode** ed eliminata pure la stampa su stdout.
