@@ -26,5 +26,7 @@ gamma: ll $(OPTIMIZER)
 	clang -O0 -emit-llvm -S -c test/gamma.c -o ll/gamma.ll
 	opt -load-pass-plugin=./$(OPTIMIZER) -passes=explore-ir ll/gamma.ll -disable-output
 
+delta: $(OPTIMIZER)
+	opt -load-pass-plugin=./$(OPTIMIZER) -passes=explore-ir test/delta.ll -disable-output
 ll:
 	mkdir ll
