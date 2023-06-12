@@ -2,6 +2,30 @@
 
 using namespace llvm;
 
+void print(Instruction &i) {
+  outs() << "\t\t<instruction>\t" << i << "\n";
+}
+
+void print(BasicBlock &b) {
+  outs() << "\t<basic block>\n"; 
+  for (Instruction &i: b) {
+    print(i);
+  }
+}
+
+void print(Function &f) {
+  outs() << "<function " << f.getName() << ">\n";
+  for (BasicBlock &b: f) {
+    print(b);
+  }
+}
+
+void print(Module &m) {
+  for (Function &f: m) {
+    print(f);
+  }
+}
+
 extern "C" PassPluginLibraryInfo llvmGetPassPluginInfo()
 {
   return {

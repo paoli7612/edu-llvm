@@ -7,10 +7,17 @@
 
 #include "llvm/IR/InstrTypes.h"
 
-class TransformPass final : public llvm::PassInfoMixin<TransformPass> {
-  public: llvm::PreservedAnalyses run(llvm::Module &, llvm::ModuleAnalysisManager &);
+using namespace llvm;
+
+class TransformPass final : public PassInfoMixin<TransformPass> {
+  public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
 };
 
-class AlgebraicIdentityPass final : public llvm::PassInfoMixin<AlgebraicIdentityPass> {
-  public: llvm::PreservedAnalyses run(llvm::Module &, llvm::ModuleAnalysisManager &);
+class AlgebraicIdentityPass final : public PassInfoMixin<AlgebraicIdentityPass> {
+  public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
 };
+
+void print(Instruction &i);
+void print(BasicBlock &b);
+void print(Function &f);
+void print(Module &m);
