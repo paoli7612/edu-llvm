@@ -26,6 +26,10 @@ strength: $(OPTIMIZER)
 	opt -load-pass-plugin=./$(OPTIMIZER) -passes=strength-reduction test/test.ll -o strengthOUT.bc
 	llvm-dis strengthOUT.bc -o test/strengthOUT.ll
 
+multi: $(OPTIMIZER)
+	opt -load-pass-plugin=./$(OPTIMIZER) -passes=multi-instruction test/test-multi.ll -o multiOUT.bc
+	llvm-dis multiOUT.bc -o test/multiOUT.ll
+
 hello-world: $(OPTIMIZER)
 	clang -O0 -emit-llvm -S -c test/hello-world.c -o test/hello-world.ll
 	opt -load-pass-plugin=./$(OPTIMIZER) -passes=algebraic-identity test/hello-world.ll -o hello-worldOUT.bc

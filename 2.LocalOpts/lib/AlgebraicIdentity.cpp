@@ -1,6 +1,5 @@
 #include "LocalOpts.h"
 
-#include <string.h>
 using namespace llvm;
 
 void runAIblock(BasicBlock &b)

@@ -36,6 +36,10 @@ class StrengthReductionPass final : public PassInfoMixin<StrengthReductionPass> 
   public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
 };
 
+class MultiInstructionPass final : public PassInfoMixin<MultiInstructionPass> {
+  public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
+};
+
 void print(Instruction &i);
 void print(BasicBlock &b);
 void print(Function &f);
