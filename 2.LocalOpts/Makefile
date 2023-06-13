@@ -20,7 +20,7 @@ transform: $(OPTIMIZER)
 
 algebraic: $(OPTIMIZER)
 	opt -load-pass-plugin=./$(OPTIMIZER) -passes=algebraic-identity test/test.ll -o algebraicOUT.bc
-	llvm-dis algebraicOUT.bc -o algebraicOUT.ll
+	llvm-dis algebraicOUT.bc -o test/algebraicOUT.ll
 
 hello-world: $(OPTIMIZER)
 	clang -O0 -emit-llvm -S -c test/hello-world.c -o test/hello-world.ll
