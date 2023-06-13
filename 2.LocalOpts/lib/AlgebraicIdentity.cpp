@@ -1,9 +1,9 @@
 #include "LocalOpts.h"
-#include "llvm/IR/InstrTypes.h"
+
 #include <string.h>
 using namespace llvm;
 
-void runOnBasicBlock(BasicBlock &b)
+void runAIblock(BasicBlock &b)
 {
     for (Instruction &i : b)
     {
@@ -44,9 +44,10 @@ PreservedAnalyses AlgebraicIdentityPass::run([[maybe_unused]] Module &M, ModuleA
     {
         for (BasicBlock &b : f)
         {
-            runOnBasicBlock(b);
+            runAIblock(b);
         }
     }
     print(M);
     return PreservedAnalyses::none();
 }
+
