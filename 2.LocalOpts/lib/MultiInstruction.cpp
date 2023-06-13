@@ -24,32 +24,25 @@ static bool runMIblock(BasicBlock &b)
 {
     for (Instruction &i : b)
     {
-        if (i.getNumOperands() != 2)
-        {
-            continue;
-        }
+        if (i.getNumOperands() != 2) { continue; }
         
         BinaryOperator *binaryOperation = dyn_cast<BinaryOperator>(i.getOperand(0));
         ConstantInt *constant = dyn_cast<ConstantInt>(i.getOperand(1));
 
-        if (!constant || !binaryOperation)
-        {
-            continue;
-        }
+        if (!constant || !binaryOperation) { continue; }
 
         auto binaryOperationConstant = dyn_cast<ConstantInt>(binaryOperation->getOperand(1));
 
-        if (binaryOperationConstant != constant)
-        {
-            continue;
-        }
+        if (binaryOperationConstant != constant) { continue; }
 
         auto operationCode = i.getOpcode();
         auto binaryOperationOpcode = binaryOperation->getOpcode();
 
         if (areOperationCodesOpposite(operationCode, binaryOperationOpcode))
         {
-            i.replaceAllUsesWith(binaryOperation->getOperand(0));
+            if (constant->getValue() == binaryOperationConstant->getValue()) {
+                i.replaceAllUsesWith(binaryOperation->getOperand(0));
+            }
         }
     }
     return true;
