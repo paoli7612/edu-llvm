@@ -1,0 +1,46 @@
+- Loop Fusion
+    - Problematiche ragionamento livello compilatore
+    - Livello memoria
+        - ottimizzazione unire loop
+    - Verifica condizioni
+        - adiacenti
+        - lower upper struttura dati
+        - itera stesso numero di celle
+    - Passi di Analisi
+    - Algoritmo Value numbering
+    - Cosa può servire per sapere se la loop fuzion porta beneficio?
+    - Lower upper bound
+    - Footprint, control flow, tripcount, siblings stesso livello
+    - Ottimizzazione locale e globale
+    - Implementazione codice loop fusion
+- Loop Invariant Code Motion
+    - Minimizzare numero espressioni
+    - Da dove vengono gli operatori?
+    - Control flow graph
+    - Reaching definitions
+        - uscite del loop
+    - Data flow analysis
+    - Dominio, direzione analisi
+- Trasformazioni utili per la memoria
+    - CPU cache DRAM
+    - Principi di località spaziale e temporale (cash miss)
+    - Prefetching
+    - Loop invariant code motion
+    - Pass manager (loop)
+- Loop blocking
+    - Sfruttare il riuso della cache
+    - Esempio di moltiplicazione tra matrici
+    - Fare a pezzi un for
+    - Dataflow analysis su constant propagation
+- Parallelismo livello di istruzione
+    - Logica di forwarding detection per le CPU
+    - Loop unrolling
+    - Dipendenza di nome
+    - Rappresentazione intermedia
+
+- Dead Code Elimination
+    - Modifiche al codice
+    - Avaible expressions
+    - Strength 
+    - Alive
+    - Data flow 
