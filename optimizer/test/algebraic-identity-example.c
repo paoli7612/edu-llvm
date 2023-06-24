@@ -9,5 +9,7 @@ int foo() {
     b = 1 * b;
     a = 0 + a;
 
+    int d = 100+200+300+400;
+
     return a + b;
 }

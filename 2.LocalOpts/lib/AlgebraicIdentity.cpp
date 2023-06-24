@@ -39,6 +39,7 @@ void runAIblock(BasicBlock &b)
 PreservedAnalyses AlgebraicIdentityPass::run([[maybe_unused]] Module &M, ModuleAnalysisManager &Mum)
 {
     print(M);
+    outs() << "________________________\n__ ALGEBRAIC IDENTITY __\n________________________\n"; 
     for (Function &f : M)
     {
         for (BasicBlock &b : f)

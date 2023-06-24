@@ -39,31 +39,58 @@ extern "C" PassPluginLibraryInfo llvmGetPassPluginInfo()
         .APIVersion = LLVM_PLUGIN_API_VERSION,
         .PluginName = "LocalOpts",
         .PluginVersion = LLVM_VERSION_STRING,
-        .RegisterPassBuilderCallbacks = [](PassBuilder &PB) {
+        .RegisterPassBuilderCallbacks = [](PassBuilder &PB)
+        {
             PB.registerPipelineParsingCallback(
-                [](StringRef Name, ModulePassManager &MPM,ArrayRef<PassBuilder::PipelineElement>) -> bool {
-                    if (Name == "algebraic-identity") {
+                [](StringRef Name, ModulePassManager &MPM, ArrayRef<PassBuilder::PipelineElement>) -> bool
+                {
+                    if (Name == "algebraic-identity")
+                    {
                         MPM.addPass(AlgebraicIdentityPass());
                         return true;
                     }
                     return false;
                 });
             PB.registerPipelineParsingCallback(
-                [](StringRef Name, ModulePassManager &MPM,ArrayRef<PassBuilder::PipelineElement>) -> bool {
-                    if (Name == "dead-code-elimination") {
+                [](StringRef Name, ModulePassManager &MPM, ArrayRef<PassBuilder::PipelineElement>) -> bool
+                {
+                    if (Name == "dead-code-elimination")
+                    {
                         MPM.addPass(DeadCodeElimination());
                         return true;
                     }
                     return false;
                 });
             PB.registerPipelineParsingCallback(
-                [](StringRef Name, ModulePassManager &MPM,ArrayRef<PassBuilder::PipelineElement>) -> bool {
-                    if (Name == "constant-propagation") {
-                        MPM.addPass(ConstantPropagationPass());
+                [](StringRef Name, ModulePassManager &MPM, ArrayRef<PassBuilder::PipelineElement>) -> bool
+                {
+                    if (Name == "constant-propagation")
+                    {
+                        MPM.addPass(ConstantPass());
                         return true;
                     }
                     return false;
                 });
-        } 
-    };   
+            PB.registerPipelineParsingCallback(
+                [](StringRef Name, ModulePassManager &MPM, ArrayRef<PassBuilder::PipelineElement>) -> bool
+                {
+                    if (Name == "strenght-elimination")
+                    {
+                        MPM.addPass(StrenghtReductionPass());
+                        return true;
+                    }
+                    return false;
+                });
+
+            PB.registerPipelineParsingCallback(
+                [](StringRef Name, ModulePassManager &MPM, ArrayRef<PassBuilder::PipelineElement>) -> bool
+                {
+                    if (Name == "print")
+                    {
+                        MPM.addPass(PrintPass());
+                        return true;
+                    }
+                    return false;
+                });
+        }};
 }

@@ -21,10 +21,14 @@ dead: $(OPTIMIZER)
 
 algebraic: $(OPTIMIZER)
 	clang++ -S -emit-llvm test/algebraic-identity-example.c -o test/algebraic-identity-example.ll 
-	opt -load-pass-plugin=./$(OPTIMIZER) -passes='algebraic-identity,dead-code-elimination' test/algebraic-identity-example.ll -o bc/algebraic-identity-example.bc
+	opt -load-pass-plugin=./$(OPTIMIZER) -passes='algebraic-identity' test/algebraic-identity-example.ll -o bc/algebraic-identity-example.bc
 	llvm-dis bc/algebraic-identity-example.bc -o out/algebraic-identity-example.ll
 
 constant: $(OPTIMIZER)
-	clang++ -S -emit-llvm test/constant-propagation-example.c -o test/constant-propagation-example.ll 
 	opt -load-pass-plugin=./$(OPTIMIZER) -passes='constant-propagation' test/constant-propagation-example.ll -o bc/constant-propagation-example.bc
 	llvm-dis bc/constant-propagation-example.bc -o out/constant-propagation-example.ll
+
+strenght: $(OPTIMIZER)
+	clang++ -S -emit-llvm test/strenght-elimination-example.c -o test/strenght-elimination-example.ll 
+	opt -load-pass-plugin=./$(OPTIMIZER) -passes='strenght-elimination,dce' test/strenght-elimination-example.ll -o bc/strenght-elimination-example.bc
+	llvm-dis bc/strenght-elimination-example.bc -o out/strenght-elimination-example.ll

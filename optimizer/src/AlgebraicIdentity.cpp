@@ -42,15 +42,15 @@ void runAIblock(BasicBlock &b)
     }
 
     for (Instruction *i : to_remove) {
-        i->eraseFromParent();
+        //i->eraseFromParent();
     }
 }
 
 
 PreservedAnalyses AlgebraicIdentityPass::run([[maybe_unused]] Module &M, ModuleAnalysisManager &Mum)
 {
-    outs() << "__ ALGEBRAIC IDENTITY __\n";
     print(M);
+    outs() << "__ Let's do ALGEBRAIC IDENTITY __\n";
     for (Function &f : M)
     {
         for (BasicBlock &b : f)

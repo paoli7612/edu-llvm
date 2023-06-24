@@ -1,14 +1,11 @@
-#include <stdio.h>
 
-int foo(int x, int y) {
-    int a = x + y;
-    int b = a * 2;
-    int c = b / 3;
-    return c;
-}
+int foo() {
 
-int main() {
-    int result = foo(10, 20);
-    printf("Result: %d\n", result);
-    return 0;
+    int a = 10;
+    int b = 20;
+    int c = a + 30;
+    int d = 20 + 30;
+
+
+    return a + b;
 }

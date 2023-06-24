@@ -24,13 +24,24 @@
 
 using namespace llvm;
 
-class DeadCodeElimination final : public PassInfoMixin<DeadCodeElimination> {
+class PrintPass final : public PassInfoMixin<PrintPass> {
   public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
 };
+
 class AlgebraicIdentityPass final : public PassInfoMixin<AlgebraicIdentityPass> {
   public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
 };
-class ConstantPropagationPass final : public PassInfoMixin<ConstantPropagationPass> {
+class StrenghtReductionPass final : public PassInfoMixin<StrenghtReductionPass> {
+  public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
+};
+class DeadCodeElimination final : public PassInfoMixin<DeadCodeElimination> {
+  public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
+};
+class ConstantPass final : public PassInfoMixin<ConstantPass> {
+  public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
+};
+
+class LoopPass final : public PassInfoMixin<LoopPass> {
   public: PreservedAnalyses run(Module &, ModuleAnalysisManager &);
 };
 
