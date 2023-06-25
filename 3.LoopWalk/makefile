@@ -10,9 +10,9 @@ all: $(OPTIMIZER)
 $(OPTIMIZER): $(OBJs)
 	$(CXX) -dylib -shared $^ -o $@
 
+run: $(OPTIMIZER)
+	opt -enable-new-pm=0 -load ./libLoopWalk.so -loop-walk test/loop.ll -disable-output
+
 .PHONY: clean
 clean:
 	$(RM) $(OPTIMIZER) $(OBJs)
-	
-format:
-	clang-format -i -style=LLVM lib/*.cpp lib/*.h --sort-includes
