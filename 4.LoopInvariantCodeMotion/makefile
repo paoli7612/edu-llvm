@@ -19,4 +19,4 @@ run: $(OPTIMIZER)
 
 .PHONY: clean
 clean:
-	$(RM) $(OPTIMIZER) LICoMo.o LoFu.o test/LICM.bc test/LF.bc
+	$(RM) $(OPTIMIZER) LICoMo.o test/LICM.bc test/LICMout.ll test/LICM.ll
