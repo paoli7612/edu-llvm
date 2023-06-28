@@ -1,5 +1,5 @@
 int g;
-// Nome della funzione: g_incr
+// Nome: g_incr
 // Numero di Argomenti: 1
 // Numero di chiamate: 0
 // Numero di BB: 1
@@ -10,7 +10,7 @@ int g_incr(int c) {
   return g;
 }
 
-// Nome della funzione: loop
+// Nome: loop
 // Numero di Argomenti: 3
 // Numero di chiamate: 0
 // Numero di BB: 3

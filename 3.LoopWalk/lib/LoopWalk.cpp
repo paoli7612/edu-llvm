@@ -5,70 +5,92 @@
 
 using namespace llvm;
 
-namespace {
+namespace
+{
 
-class LoopWalkPass final : public LoopPass {
-public:
-  static char ID;
+    class LoopWalkPass final : public LoopPass
+    {
+    public:
+        static char ID;
 
-  LoopWalkPass() : LoopPass(ID) {}
+        LoopWalkPass() : LoopPass(ID) {}
 
-  virtual void getAnalysisUsage(AnalysisUsage &AU) const override {
-    AU.addRequired<DominatorTreeWrapperPass>();
-    AU.addRequired<LoopInfoWrapperPass>();
-  }
-
-  virtual bool runOnLoop(Loop *L, LPPassManager &LPM) override {
-    outs() << "\nLOOPPASS INIZIATO...\n"; 
-
-    DominatorTree *DT = &getAnalysis<DominatorTreeWrapperPass>().getDomTree();
-
-
-    // verificare la forma normalizzata
-    if (L->isLoopSimplifyForm()){
-      outs() << "\nLoop in forma normalizzata\n";
-      
-      // controllo preheader
-      BasicBlock *B1 = L->getLoopPreheader();
-      outs() << "\nPreheader del loop: " <<  *B1 << "\n";
-
-      // itero sui basic blocks del loop
-      int i = 1;
-      for (Loop::block_iterator BI = L->block_begin(); BI != L->block_end(); ++BI){
-        BasicBlock *BB = *BI;
-        outs() << "\nBasic block n. " << i << ": " << *BB << "\n";
-        i++;
-
-        outs() << "Scrorrendo le istruzioni del BB: \n";
-        for(auto InstIter = BB->begin(); InstIter != BB->end(); ++InstIter){
-          Instruction &Inst = *InstIter;
-
-          //cerco la SUB
-          if(Inst.getOpcode() == Instruction::Sub)
-          {
-            outs() << "Istruzione SUB: " << Inst << "\n";
-
-            //Itero su gli operatori
-            for(auto *opIter = Inst.op_begin(); opIter != Inst.op_end(); ++opIter){
-              Value *op = *opIter;
-
-              //Se non e' una const
-              if(Instruction *arg = dyn_cast<Instruction>(op))
-              {
-                outs() << "Istruzione che definisce: " << *op <<"\n";
-                outs() << "Basic Block dell'istruzione:\n" << *arg->getParent() << "\n";
-              }
-            }
-          }
+        virtual void getAnalysisUsage(AnalysisUsage &AU) const override
+        {
+            AU.addRequired<DominatorTreeWrapperPass>();
+            AU.addRequired<LoopInfoWrapperPass>();
         }
-      }
-      return true;
-    }
-    return false; 
-  }
-};
 
-char LoopWalkPass::ID = 0;
-RegisterPass<LoopWalkPass> X("loop-walk", "Loop Walk");
+        void runOnBasicBlock(BasicBlock &b)
+        {
+            for (Instruction &i : b)
+            {
+                if (BranchInst *ib = dyn_cast<BranchInst>(&i))
+                {
+                    if (ib->isConditional())
+                    {
+                        outs() << "salto condizionale: " << i << "\n";
+                    }
+                    else
+                    {
+                        outs() << "salto incondizionale: " << i << "\n";
+                    }
+                }
+                else
+                {
+                    outs() << i << "\n";
+                }
+            }
+        }
+
+        virtual bool runOnLoop(Loop *L, LPPassManager &LPM) override
+        {
+            outs() << "\nLOOPPASS INIZIATO...\n";
+            // Verificare la forma normalizzata
+            if (!L->isLoopSimplifyForm())
+            {
+                return false;
+            }
+            // Controllo preheader
+            BasicBlock *b1 = L->getLoopPreheader();
+            outs() << "\n\tPREHEADER:\n";
+            runOnBasicBlock(*b1);
+            
+
+            // Itero sui basic blocks del loop
+            for (BasicBlock *b : L->blocks())
+            {
+                outs() << "\n\tBASIC BLOCK :\n";
+                runOnBasicBlock(*b);
+
+                /*
+                outs() << "Scrorrendo le istruzioni del BB: \n";
+                for (Instruction &Inst : *b)
+                {
+                    // Cerco la SUB
+                    if (Inst.getOpcode() == Instruction::Sub)
+                    {
+                        outs() << "Istruzione SUB: " << Inst << "\n";
+
+                        // Itero sugli operatori
+                        for (Value *op : Inst.operands())
+                        {
+                            // Se non è una const
+                            if (Instruction *arg = dyn_cast<Instruction>(op))
+                            {
+                                outs() << "Istruzione che definisce: " << *op << "\n";
+                                outs() << "Basic Block dell'istruzione:\n" << *arg->getParent() << "\n";
+                            }
+                        }
+                    }
+                }
+                */
+            }
+            return true;
+        }
+    };
+
+    char LoopWalkPass::ID = 0;
+    RegisterPass<LoopWalkPass> X("loop-walk", "Loop Walk");
 
 } // anonymous namespace
