@@ -26,12 +26,12 @@ namespace
         {
             for (Use &u : i.operands())
             {
-                Value *v = u.get(); // Get the Value from the Use
+                Value *v = u.get(); 
                 // non deve essere un PHI-node
                 if (isa<PHINode>(i) || isa<BranchInst>(i))
                     return false;
                 // se v è un'istruzione
-                if (Instruction *arg = dyn_cast<Instruction>(v)) // Notice the change here as well
+                if (Instruction *arg = dyn_cast<Instruction>(v)) 
                 {
                     // se l'istruzione è nel loop
                     if (L->contains(arg))

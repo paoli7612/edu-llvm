@@ -46,14 +46,12 @@ namespace
         virtual bool runOnLoop(Loop *L, LPPassManager &LPM) override
         {
             outs() << "\nLOOPPASS INIZIATO...\n";
-            // Verificare la forma normalizzata
             if (!L->isLoopSimplifyForm())
             {
                 return false;
             }
-            // Controllo preheader
-            BasicBlock *b1 = L->getLoopPreheader();
             outs() << "\n\tPREHEADER:\n";
+            BasicBlock *b1 = L->getLoopPreheader();
             runOnBasicBlock(*b1);
             
 

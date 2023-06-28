@@ -19,11 +19,11 @@ transform: $(OPTIMIZER)
 	llvm-dis transformOUT.bc -o transformOUT.ll
 
 algebraic: $(OPTIMIZER)
-	opt -load-pass-plugin=./$(OPTIMIZER) -passes=algebraic-identity,dce test/test.ll -o algebraicOUT.bc
+	opt -load-pass-plugin=./$(OPTIMIZER) -passes=algebraic-identity test/test.ll -o algebraicOUT.bc
 	llvm-dis algebraicOUT.bc -o test/algebraicOUT.ll
 
-strength: $(OPTIMIZER)
-	opt -load-pass-plugin=./$(OPTIMIZER) -passes=strength-reduction test/test.ll -o strengthOUT.bc
+strenght: $(OPTIMIZER)
+	opt -load-pass-plugin=./$(OPTIMIZER) -passes=strength-reduction,dce,print test/test.ll -o strengthOUT.bc
 	llvm-dis strengthOUT.bc -o test/strengthOUT.ll
 
 multi: $(OPTIMIZER)

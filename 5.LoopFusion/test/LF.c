@@ -1,8 +1,11 @@
-int foo() {
-    int a[10];
-    for (int i=0; i<10; i++)
-        a[i] = i*2;
-    for (int i=0; i<10; i++) 
-        a[i] += 2;
-    return a[9];
+void populate (int a[10], int b[10], int c[10]) {
+    int i;
+
+    for(i=0; i<10; i++) {
+        a[i] = 5*c[i];
+    }
+
+    for(i=0; i<10; i++) {
+        b[i] = a[i]+c[i];
+    }
 }
